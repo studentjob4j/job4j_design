@@ -19,10 +19,11 @@ public class EvenIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        if (this.hasNext()) {
-            return this.numbers[this.count++];
-        } else {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
+
+        } else {
+            return this.numbers[this.count++];
         }
     }
 
