@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserStoreTest {
-
     private UserStore store = new UserStore();
 
     @Before

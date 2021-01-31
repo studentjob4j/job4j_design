@@ -1,7 +1,6 @@
 package ru.job4j.generics;
 
 public class RoleStore implements Store<Role> {
-
     @Override
     public void add(Role model) {
 

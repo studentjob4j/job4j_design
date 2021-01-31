@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemStore<T extends Base> implements Store<T> {
-
     private final List<T> mem = new ArrayList<>();
 
     @Override
