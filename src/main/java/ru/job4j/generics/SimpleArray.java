@@ -20,24 +20,37 @@ public class SimpleArray<T> implements Iterator<T> {
 
     public boolean set(T value, int position) {
         boolean result = false;
-        if (Objects.checkIndex(position, index) == position) {
-            array[position] = value;
-            result = true;
+        try {
+            if (Objects.checkIndex(position, index) == position) {
+                array[position] = value;
+                result = true;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Введите правильный индекс");
         }
         return result;
     }
 
     public T get(int position) {
         T result = null;
-        if (Objects.checkIndex(position, index) == position) {
-            result = array[position];
+        try {
+            if (Objects.checkIndex(position, index) == position) {
+                result = array[position];
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Введите правильный индекс");
         }
+
         return result;
     }
 
     public T[] remove(int position) {
-        if (Objects.checkIndex(position, index) == position) {
-            System.arraycopy(array, position + 1, array, position, --index);
+        try {
+            if (Objects.checkIndex(position, index) == position) {
+                System.arraycopy(array, position + 1, array, position, --index);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Введите правильный индекс");
         }
         return array;
     }
