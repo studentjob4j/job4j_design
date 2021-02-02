@@ -7,6 +7,7 @@ import java.util.List;
 
 public class MemStore<T extends Base> implements Store<T> {
     private final List<T> mem = new ArrayList<>();
+    private T temp;
 
     @Override
     public void add(T model) {
@@ -14,22 +15,39 @@ public class MemStore<T extends Base> implements Store<T> {
     }
 
     @Override
-    public boolean replace(String id, T model) {
-        boolean result = false;
-        T temp = mem.set(searchIndex(id), model);
+    public boolean replace(String id, T model) throws NullPointerException {
+        try {
+            if (searchIndex(id) != -1) {
+                temp = mem.set(searchIndex(id), model);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         return temp.getId().equals(id);
     }
 
     @Override
-    public boolean delete(String id) {
-        T temp = mem.remove(searchIndex(id));
+    public boolean delete(String id) throws NullPointerException {
+        try {
+            if (searchIndex(id) != -1) {
+                temp = mem.remove(searchIndex(id));
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         return (temp.getId().equals(id));
     }
 
     @Override
-    public T findById(String id) {
-        T result = mem.get(searchIndex(id));
-        return result;
+    public T findById(String id) throws NullPointerException {
+        try {
+            if (searchIndex(id) != -1) {
+                temp = mem.get(searchIndex(id));
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return temp;
     }
 
     private int searchIndex(String id) {
