@@ -32,10 +32,10 @@ public class SimpleArrayTest {
         test.add(4);
         test.add(6);
         test.remove(1);
-        assertThat(test.hasNext(), is(true));
-        assertThat(test.next(), is(2));
-        assertThat(test.hasNext(), is(true));
-        assertThat(test.next(), is(6));
-        assertThat(test.hasNext(), is(false));
+        assertThat(test.iterator().hasNext(), is(true));
+        assertThat(test.iterator().next(), is(2));
+        assertThat(test.iterator().hasNext(), is(true));
+        assertThat(test.iterator().next(), is(6));
+        assertThat(test.iterator().hasNext(), is(false));
     }
 }
