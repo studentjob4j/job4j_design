@@ -11,43 +11,55 @@ public class SimpleArray<T> implements Iterable<T> {
     private int modCount;
 
     public SimpleArray() {
-        this.container = new Object[0];
+        this.container = new Object[10];
     }
 
-    public T get(int index) {
+    public T get(int pos) {
         T result = null;
-        if (Objects.checkIndex(index, container.length) == index) {
-           result = (T) container[index];
-        }
-        return result;
+        Objects.checkIndex(pos, index);
+        return (T) container[pos];
     }
 
     public void add(T model) {
         if (index == 0) {
-            container = new Object[1];
             container[index++] = model;
             modCount++;
             return;
-        } else if (index == container.length) {
-            Object[] temp = container;
-            container = Arrays.copyOf(container, container.length + 1);
-            System.arraycopy(temp, 0, container, 0, temp.length);
-            container[container.length - 1] = model;
+        } else {
+            container[index++] = model;
+            modCount++;
+        }
+        if (index == container.length - 1) {
+            //Object[] temp = container;
+            container = Arrays.copyOf(container, container.length * 2);
+           // System.arraycopy(temp, 0, container, 0, temp.length);
+            container[findIndex()] = model;
             index++;
             modCount++;
             return;
         }
     }
 
+    private int findIndex() {
+        int result = -1;
+        for (int i = 0; i < container.length; i++) {
+            if (container[i] == null) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int index;
+            private int position;
             private int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
-                return index < container.length;
+                return position < index;
             }
 
             @Override
@@ -58,7 +70,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 } else if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 } else {
-                    result = (T) container[index++];
+                    result = (T) container[position++];
                 }
                 return result;
             }
