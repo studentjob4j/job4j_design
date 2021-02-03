@@ -15,38 +15,33 @@ public class MemStore<T extends Base> implements Store<T> {
     }
 
     @Override
-    public boolean replace(String id, T model) throws NullPointerException {
-        try {
-            if (searchIndex(id) != -1) {
-                temp = mem.set(searchIndex(id), model);
+    public boolean replace(String id, T model) {
+        int tmp = searchIndex(id);
+            if (tmp != -1) {
+                temp = mem.set(tmp, model);
+            } else {
+                return false;
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         return temp.getId().equals(id);
     }
 
     @Override
-    public boolean delete(String id) throws NullPointerException {
-        try {
-            if (searchIndex(id) != -1) {
-                temp = mem.remove(searchIndex(id));
+    public boolean delete(String id) {
+            int tmp = searchIndex(id);
+            if (tmp != -1) {
+                temp = mem.remove(tmp);
+            } else {
+                return false;
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         return (temp.getId().equals(id));
     }
 
     @Override
-    public T findById(String id) throws NullPointerException {
-        try {
-            if (searchIndex(id) != -1) {
-                temp = mem.get(searchIndex(id));
+    public T findById(String id) {
+            int tmp = searchIndex(id);
+            if (tmp != -1) {
+                temp = mem.get(tmp);
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         return temp;
     }
 
