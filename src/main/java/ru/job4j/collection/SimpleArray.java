@@ -29,26 +29,17 @@ public class SimpleArray<T> implements Iterable<T> {
             container[index++] = model;
             modCount++;
         }
-        if (index == container.length - 1) {
-            //Object[] temp = container;
-            container = Arrays.copyOf(container, container.length * 2);
-           // System.arraycopy(temp, 0, container, 0, temp.length);
-            container[findIndex()] = model;
+        if (index == container.length) {
+            arrayExpansive(model);
             index++;
             modCount++;
             return;
         }
     }
 
-    private int findIndex() {
-        int result = -1;
-        for (int i = 0; i < container.length; i++) {
-            if (container[i] == null) {
-                result = i;
-                break;
-            }
-        }
-        return result;
+    private void arrayExpansive(T value) {
+        container = Arrays.copyOf(container, container.length * 2);
+        container[container.length - index] = value;
     }
 
     @Override
