@@ -18,16 +18,12 @@ public class SimpleArray<T> implements Iterable<T> {
          array[index++] = value;
     }
 
-    public boolean set(T value, int position) {
+    public boolean set(T value, int position) throws IndexOutOfBoundsException {
         boolean result = false;
-        try {
             if (Objects.checkIndex(position, index) == position) {
                 array[position] = value;
                 result = true;
             }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Введите правильный индекс");
-        }
         return result;
     }
 
@@ -39,11 +35,10 @@ public class SimpleArray<T> implements Iterable<T> {
         return result;
     }
 
-    public T[] remove(int position) throws IndexOutOfBoundsException {
+    public void remove(int position) throws IndexOutOfBoundsException {
         if (Objects.checkIndex(position, index) == position) {
             System.arraycopy(array, position + 1, array, position, --index);
         }
-        return array;
     }
 
     @Override
