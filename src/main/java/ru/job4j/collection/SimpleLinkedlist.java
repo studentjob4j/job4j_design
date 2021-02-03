@@ -40,12 +40,13 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private int index = 0;
             private int expectedmodCount = modCount;
+            private Node<E> current = first;
+            private int count = 0;
 
             @Override
             public boolean hasNext() {
-                return index < size;
+                return current.next != null;
             }
 
             @Override
@@ -53,16 +54,14 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
                 if (this.expectedmodCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Node<E> result = first;
-                for (int i = 0; i < index; i++) {
-                    result = result.next;
+                if (count != 0) {
+                    current = current.next;
                 }
-                index++;
-                return result.data;
+                count++;
+                return current.data;
             }
         };
     }
