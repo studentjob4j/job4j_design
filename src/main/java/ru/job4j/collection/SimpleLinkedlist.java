@@ -27,15 +27,13 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
 
     private Node<E> getNode(int index) {
         Node<E> nodeTemp = this.first;
-        try {
+
             if (Objects.checkIndex(index, size) == index) {
               for (int i = 0; i < index; i++) {
                 nodeTemp = nodeTemp.next;
               }
             }
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
+
         return nodeTemp;
     }
 
@@ -59,7 +57,12 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return get(this.index++);
+                Node<E> result = first;
+                for (int i = 0; i < index; i++) {
+                    result = result.next;
+                }
+                index++;
+                return result.data;
             }
         };
     }
