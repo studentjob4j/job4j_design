@@ -29,17 +29,21 @@ public class SimpleArray<T> implements Iterable<T> {
             container[index++] = model;
             modCount++;
         }
-        checkArrayLength();
-        container[container.length - index] = model;
+        if (checkArrayLength()) {
+            container[container.length - index] = model;
             index++;
             modCount++;
             return;
+        }
     }
 
-    private void checkArrayLength() {
+    private boolean checkArrayLength() {
+        boolean result = false;
         if (index == container.length) {
             container = Arrays.copyOf(container, container.length * 2);
+            result = true;
         }
+        return result;
     }
 
     @Override
@@ -66,5 +70,22 @@ public class SimpleArray<T> implements Iterable<T> {
                 return result;
             }
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SimpleArray<?> that = (SimpleArray<?>) o;
+        return Arrays.equals(container, that.container);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(container);
     }
 }
