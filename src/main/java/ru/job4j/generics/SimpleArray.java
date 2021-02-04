@@ -8,7 +8,6 @@ public class SimpleArray<T> implements Iterable<T> {
 
     private T[] array;
     private int index;
-    private int count;
 
     public SimpleArray(T[] array) {
         this.array = array;
@@ -44,6 +43,7 @@ public class SimpleArray<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            private int count;
             @Override
             public boolean hasNext() {
                 return count < index;
