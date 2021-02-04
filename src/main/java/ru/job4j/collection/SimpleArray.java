@@ -29,17 +29,17 @@ public class SimpleArray<T> implements Iterable<T> {
             container[index++] = model;
             modCount++;
         }
-        if (index == container.length) {
-            arrayExpansive(model);
+        checkArrayLength();
+        container[container.length - index] = model;
             index++;
             modCount++;
             return;
-        }
     }
 
-    private void arrayExpansive(T value) {
-        container = Arrays.copyOf(container, container.length * 2);
-        container[container.length - index] = value;
+    private void checkArrayLength() {
+        if (index == container.length) {
+            container = Arrays.copyOf(container, container.length * 2);
+        }
     }
 
     @Override
