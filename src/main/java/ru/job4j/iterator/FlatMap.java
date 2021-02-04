@@ -22,24 +22,15 @@ public class FlatMap<T>  implements Iterator<T> {
         while (!cursor.hasNext() && data.hasNext()) {
             cursor = data.next();
         }
-        return  cursor.hasNext() || data.hasNext();
+        return  cursor.hasNext();
     }
 
     @Override
     public T next() {
-       T result = null;
         if (!hasNext()) {
            throw new NoSuchElementException();
         }
-            if (cursor.hasNext()) {
-                result = cursor.next();
-            } else {
-                if (data.hasNext()) {
-                    cursor = data.next();
-                    result = cursor.next();
-                }
-            }
-        return result;
+        return cursor.next();
     }
 
     public static void main(String[] args) {
