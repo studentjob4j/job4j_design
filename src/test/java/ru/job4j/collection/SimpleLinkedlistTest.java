@@ -44,4 +44,14 @@ public class SimpleLinkedlistTest {
         list.add(4);
         it.next();
     }
+
+    @Test
+    public void whenAddOneElementThen() {
+        SimpleLinkedlist<Integer> simple = new SimpleLinkedlist<>();
+        simple.add(1);
+        Iterator<Integer> it = simple.iterator();
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(1));
+        assertThat(it.hasNext(), is(false));
+    }
 }

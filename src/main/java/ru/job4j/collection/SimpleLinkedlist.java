@@ -46,6 +46,9 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
+                if (count == 0) {
+                    return current != null;
+                }
                 return current.next != null;
             }
 
