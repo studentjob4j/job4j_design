@@ -42,7 +42,7 @@ public class ListUtils {
     public static <T> List<T> removeAll(List<T> list, List<T> elements) {
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < elements.size(); j++) {
-                if (list.get(i) == elements.get(j)) {
+                if (list.get(i).equals(elements.get(j))) {
                     list.remove(i);
                 }
             }
