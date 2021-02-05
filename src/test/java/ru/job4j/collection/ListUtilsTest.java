@@ -50,7 +50,7 @@ public class ListUtilsTest {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 3, 6));
         Predicate<Integer> flter = x -> x <= 3;
         List<Integer> result = ListUtils.replaceIf(input, flter, 7);
-        assertThat(result, Is.is(Arrays.asList(7, 7)));
+        assertThat(result, Is.is(Arrays.asList(7, 7, 6)));
     }
 
     @Test

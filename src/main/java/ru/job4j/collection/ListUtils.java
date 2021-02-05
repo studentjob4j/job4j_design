@@ -1,10 +1,10 @@
 package ru.job4j.collection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class ListUtils {
 
@@ -32,18 +32,39 @@ public class ListUtils {
     }
 
     public static <T> List<T> removeIf(List<T> list, Predicate<T> filter) {
-        return list.stream().filter(filter).collect(Collectors.toList());
+        ListIterator<T> it = list.listIterator();
+        List<T> result = new ArrayList<>();
+        while (it.hasNext()) {
+            T temp = it.next();
+            if (filter.test(temp)) {
+                result.add(temp);
+            }
+        }
+        return result;
     }
 
     public static <T> List<T> replaceIf(List<T> list, Predicate<T> filter, T value) {
-        return list.stream().filter(filter).map(x -> value).collect(Collectors.toList());
+        ListIterator<T> it = list.listIterator();
+        while (it.hasNext()) {
+            T temp = it.next();
+            if (filter.test(temp)) {
+                it.set(value);
+            }
+        }
+        return list;
     }
 
     public static <T> List<T> removeAll(List<T> list, List<T> elements) {
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = 0; j < elements.size(); j++) {
-                if (list.get(i).equals(elements.get(j))) {
-                    list.remove(i);
+        ListIterator<T> major = list.listIterator();
+        ListIterator<T> slave = elements.listIterator();
+        while (major.hasNext()) {
+            T one = major.next();
+            while (slave.hasNext()) {
+                if (one.equals(slave.next())) {
+                    int index = major.nextIndex();
+                    list.remove(--index);
+                    major = list.listIterator();
+                    break;
                 }
             }
         }
