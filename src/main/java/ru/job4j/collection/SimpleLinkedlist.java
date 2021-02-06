@@ -43,13 +43,11 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
             private int expectedmodCount = modCount;
             private Node<E> current = first;
             private int count = 0;
+            private E result;
 
             @Override
             public boolean hasNext() {
-                if (count == 0) {
-                    return current != null;
-                }
-                return current.next != null;
+                return current != null;
             }
 
             @Override
@@ -61,10 +59,14 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
                     throw new NoSuchElementException();
                 }
                 if (count != 0) {
+                    count++;
+                    result = current.data;
+                    current = current.next;
+                } else {
+                    result = current.data;
                     current = current.next;
                 }
-                count++;
-                return current.data;
+                return result;
             }
         };
     }
