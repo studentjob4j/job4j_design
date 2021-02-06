@@ -57,7 +57,7 @@ public class ListUtilsTest {
     public void whenRemoveAll() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 3, 6));
         List<Integer> input2 = new ArrayList<>(Arrays.asList(1, 3));
-        List<Integer> result = ListUtils.removeAll(input, input2);
+         List<Integer> result = ListUtils.removeAll(input, input2);
         assertThat(result.get(0), Is.is(6));
     }
 }
