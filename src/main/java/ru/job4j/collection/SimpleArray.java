@@ -29,21 +29,11 @@ public class SimpleArray<T> implements Iterable<T> {
             container[index++] = model;
             modCount++;
         }
-        if (checkArrayLength()) {
-            container[container.length - index] = model;
-            index++;
-            modCount++;
-            return;
-        }
-    }
-
-    private boolean checkArrayLength() {
-        boolean result = false;
         if (index == container.length) {
             container = Arrays.copyOf(container, container.length * 2);
-            result = true;
+            container[index++] = model;
+            modCount++;
         }
-        return result;
     }
 
     @Override
