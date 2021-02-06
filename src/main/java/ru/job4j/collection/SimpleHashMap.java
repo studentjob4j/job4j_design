@@ -1,0 +1,127 @@
+package ru.job4j.collection;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class SimpleHashMap<K, V> {
+
+    private Node[] array;
+    private int load;
+    private int modCount;
+    private int size;
+    private  int currentArrayIndex = 0;
+
+    public SimpleHashMap() {
+        this.array = new Node[16];
+        load = (int) (array.length * 0.75);
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public boolean insert(K key, V value) {
+        boolean result = false;
+        Node<K, V> temp = new Node<>(key, value);
+        int index = hash(key);
+        if (size + 1 >= load) {
+            load *= 2;
+            expensive();
+        }
+        if (array[index] == null) {
+            array[index] = temp;
+            result = true;
+            size++;
+            modCount++;
+        }
+        return result;
+    }
+
+    private void expensive() {
+        Node[] temp = array;
+        array = new Node[temp.length * 2];
+        size = 0;
+        for (Node tmp : temp) {
+            if (tmp != null) {
+                insert((K) tmp.getKey(), (V) tmp.getValue());
+            }
+        }
+    }
+
+    public V get(K key) {
+        return (V) array[hash(key)].getValue();
+    }
+
+    public boolean delete(K key) {
+        boolean result = false;
+        if (array[hash(key)] != null) {
+            array[hash(key)] = null;
+            size--;
+            modCount++;
+            result = true;
+        }
+        return result;
+    }
+
+    public int hash(K key) {
+        int temp = 31;
+        temp = temp * 17 + key.hashCode();
+        return temp % array.length;
+    }
+
+    public Iterator<V> iterator() {
+        return new Iterator<V>() {
+            int expectedModCount = modCount;
+            int currentNodeNumber = 0;
+            Node currentNode;
+
+            @Override
+            public boolean hasNext() {
+                return currentNodeNumber < size;
+            }
+
+            @Override
+            public V next() {
+                V value = null;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                } else if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                for (; currentNodeNumber != size; currentArrayIndex++) {
+                    if (array[currentArrayIndex] != null) {
+                            currentNode = array[currentArrayIndex];
+                        currentNodeNumber++;
+                        value = (V) currentNode.getValue();
+                        currentArrayIndex++;
+                        return value;
+                    }
+                }
+                return null;
+            }
+        };
+    }
+
+    private  static class Node<K, V> {
+        K key;
+        V value;
+
+        public Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+    }
+}
+
+
+
