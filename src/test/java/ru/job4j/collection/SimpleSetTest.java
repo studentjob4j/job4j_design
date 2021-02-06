@@ -22,7 +22,7 @@ public class SimpleSetTest {
     @Test
     public void whenAddDuplicateThen() {
        boolean result = set.add("six");
-       assertThat(result, is(true));
+       assertThat(result, is(false));
    }
 
    @Test

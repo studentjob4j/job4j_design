@@ -14,37 +14,26 @@ public class SimpleSet<T> implements Iterable<T> {
 
     public boolean add(T value) {
         boolean result = false;
-       if  (Objects.nonNull(value)) {
-           Iterator<T> it = array.iterator();
-           while (it.hasNext()) {
-               if (value.equals(it.next())) {
-                   result = true;
-                   break;
-               }
-           }
-           if (!result) {
+           if (!contains(value) && value != null) {
                array.add(value);
+               result = true;
            }
-       }
         return result;
     }
 
+    private boolean contains(T value) {
+        Iterator<T> it = array.iterator();
+        while (it.hasNext()) {
+            if (Objects.equals(value, it.next())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            Iterator<T> it = array.iterator();
-            @Override
-            public boolean hasNext() {
-                return it.hasNext();
-            }
-
-            @Override
-            public T next() {
-                if (!it.hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                return it.next();
-            }
-        };
+        return array.iterator();
     }
 }
