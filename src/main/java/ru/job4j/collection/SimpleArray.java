@@ -15,25 +15,20 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public T get(int pos) {
-        T result = null;
         Objects.checkIndex(pos, index);
         return (T) container[pos];
     }
 
     public void add(T model) {
-        if (index == 0) {
-            container[index++] = model;
-            modCount++;
-            return;
-        } else {
-            container[index++] = model;
-            modCount++;
-        }
         if (index == container.length) {
-            container = Arrays.copyOf(container, container.length * 2);
-            container[index++] = model;
-            modCount++;
+            expansionArray();
         }
+        container[index++] = model;
+        modCount++;
+    }
+
+    private void expansionArray() {
+        container = Arrays.copyOf(container, container.length * 2);
     }
 
     @Override
