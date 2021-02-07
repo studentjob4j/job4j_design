@@ -28,6 +28,6 @@ public class SimpleSetTest {
    @Test
     public void whenAddNull() {
       boolean result = set.add(null);
-      assertThat(result, is(false));
+      assertThat(result, is(true));
    }
 }

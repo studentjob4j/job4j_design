@@ -1,7 +1,6 @@
 package ru.job4j.collection;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleSet<T> implements Iterable<T> {
@@ -14,7 +13,7 @@ public class SimpleSet<T> implements Iterable<T> {
 
     public boolean add(T value) {
         boolean result = false;
-           if (!contains(value) && value != null) {
+           if (!contains(value)) {
                array.add(value);
                result = true;
            }
