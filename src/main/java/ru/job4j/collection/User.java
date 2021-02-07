@@ -14,7 +14,7 @@ public class User {
         this.birthday = birthday;
     }
 
-    @Override
+  /*  @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -30,19 +30,21 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(name, children, birthday);
-    }
+    }*/
 
     public static void main(String[] args) {
         Calendar calendar = new GregorianCalendar(2000, 5, 21);
         User one = new User("Natasha", 2, calendar);
         User two = new User("Natasha", 2, calendar);
+        System.out.println(one.hashCode());
+        System.out.println(two.hashCode());
         Map<User, Object> map = new HashMap<>();
         map.put(one, 1);
         map.put(two, 2);
         System.out.println(map.size());
         for (Map.Entry entry : map.entrySet()) {
             System.out.println("Key: " + entry.getKey() + " Value: "
-                    + entry.getValue());
+                    + entry.getValue() + "  hashcode " + entry.hashCode());
         }
     }
 }
