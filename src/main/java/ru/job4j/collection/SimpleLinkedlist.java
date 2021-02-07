@@ -27,7 +27,6 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
 
     private Node<E> getNode(int index) {
         Node<E> nodeTemp = this.first;
-
             if (Objects.checkIndex(index, size) == index) {
               for (int i = 0; i < index; i++) {
                 nodeTemp = nodeTemp.next;
@@ -42,7 +41,6 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
         return new Iterator<E>() {
             private int expectedmodCount = modCount;
             private Node<E> current = first;
-            private int count = 0;
             private E result;
 
             @Override
@@ -58,14 +56,8 @@ public class SimpleLinkedlist<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (count != 0) {
-                    count++;
                     result = current.data;
                     current = current.next;
-                } else {
-                    result = current.data;
-                    current = current.next;
-                }
                 return result;
             }
         };
