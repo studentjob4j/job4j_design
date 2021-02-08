@@ -55,7 +55,7 @@ public class SimpleHashMap<K, V> {
 
     public boolean delete(K key) {
         boolean result = false;
-        if (array[hash(key)] != null) {
+        if (array[hash(key)] != null && array[hash(key)].getKey().equals(key)) {
             array[hash(key)] = null;
             size--;
             modCount++;
