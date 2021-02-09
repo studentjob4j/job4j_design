@@ -4,6 +4,8 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 public class SimpleStackTest {
 
     @Test
@@ -42,6 +44,12 @@ public class SimpleStackTest {
         assertThat(stack.pop(), is(3));
         assertThat(stack.pop(), is(2));
         assertThat(stack.pop(), is(1));
+    }
+
+    @Test(expected =  NoSuchElementException.class)
+    public void whenNotElements() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
+        stack.pop();
     }
 
 }

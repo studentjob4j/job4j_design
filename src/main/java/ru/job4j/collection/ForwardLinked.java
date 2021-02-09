@@ -84,8 +84,7 @@ public class ForwardLinked<T> implements Iterable<T> {
             size--;
         } else {
             result = temp.value;
-            Node<T> tmp = null;
-            head = tmp;
+            head = null;
             size--;
         }
         return result;

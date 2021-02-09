@@ -7,7 +7,7 @@ public class SimpleStack<T> {
     private ForwardLinked<T> linked = new ForwardLinked<T>();
     private int size;
 
-    public T pop() {
+    public T pop() throws NoSuchElementException {
         size--;
         return linked.deleteLast();
     }
