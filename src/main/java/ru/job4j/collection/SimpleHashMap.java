@@ -10,11 +10,11 @@ public class SimpleHashMap<K, V> {
     private int load;
     private int modCount;
     private int size;
-    private  int currentArrayIndex = 0;
+    public final double loadFactor = 0.75;
 
     public SimpleHashMap() {
         this.array = new Node[16];
-        load = (int) (array.length * 0.75);
+        load = (int) (array.length * loadFactor);
     }
 
     public int getSize() {
@@ -24,11 +24,12 @@ public class SimpleHashMap<K, V> {
     public boolean insert(K key, V value) {
         boolean result = false;
         Node<K, V> temp = new Node<>(key, value);
-        int index = hash(key);
+
         if (size + 1 >= load) {
             load *= 2;
             expensive();
         }
+        int index = hash(key);
         if (array[index] == null) {
             array[index] = temp;
             result = true;
@@ -50,7 +51,11 @@ public class SimpleHashMap<K, V> {
     }
 
     public V get(K key) {
-        return (V) array[hash(key)].getValue();
+        V value = null;
+        if (array[hash(key)].getKey().equals(key)) {
+            value = (V) array[hash(key)].getValue();
+        }
+        return value;
     }
 
     public boolean delete(K key) {
@@ -75,6 +80,7 @@ public class SimpleHashMap<K, V> {
             int expectedModCount = modCount;
             int currentNodeNumber = 0;
             Node currentNode;
+            int currentArrayIndex = 0;
 
             @Override
             public boolean hasNext() {
