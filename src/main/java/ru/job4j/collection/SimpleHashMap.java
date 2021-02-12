@@ -52,7 +52,7 @@ public class SimpleHashMap<K, V> {
 
     public V get(K key) {
         V value = null;
-        if (array[hash(key)].getKey().equals(key)) {
+        if (array[hash(key)] != null && array[hash(key)].getKey().equals(key)) {
             value = (V) array[hash(key)].getValue();
         }
         return value;
