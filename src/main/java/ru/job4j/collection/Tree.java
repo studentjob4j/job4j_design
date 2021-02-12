@@ -17,7 +17,7 @@ public class Tree<E> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         boolean rsl = false;
         if (!findBy(child).isPresent()) {
-            Node<E> temp = findBy(parent).get();
+            Node<E> temp = findBy(parent).orElse(null);
             if (temp != null) {
                 temp.children.add(new Node<E>(child));
                 rsl = true;
@@ -28,25 +28,13 @@ public class Tree<E> implements SimpleTree<E> {
 
     @Override
     public Optional<Node<E>> findBy(E value) {
-
         return findByPredicate((x) -> x.value.equals(value));
     }
 
     public boolean isBinary() {
-       /* boolean result = true;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.children.size() <= 2) {
-                data.addAll(el.children);
-            } else {
-                result = false;
-                break;
-            }
 
-        }*/
-        return !(findByPredicate((el) -> el.children.size() > 2)).isPresent();
+        boolean temp = !(findByPredicate((el) -> el.children.size() > 2)).isPresent();
+        return temp;
     }
 
     private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
