@@ -1,6 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.List;
+import java.util.*;
 
 public class Analyze {
 
@@ -10,20 +10,21 @@ public class Analyze {
     private int change;
 
     public Info diff(List<User> previous, List<User> current) {
-        for (User temp : previous) {
-            for (User tmp : current) {
-                if (temp.id == tmp.id) {
-                    if (temp.name.equals(tmp.name)) {
-                        old++;
-                    } else {
-                        change++;
-                    }
-                }
-            }
-        }
-        add = current.size() - old - change;
-        delete = previous.size() - old - change - add;
-        return new Info(add, change, delete);
+       Map<Integer, User> map = new HashMap<>();
+       for (User temp : current) {
+           map.put(temp.id, temp);
+       }
+       for (User temp : previous) {
+           if (map.containsKey(temp.id) && map.get(temp.id).name.equals(temp.name)) {
+              old++;
+           } else if (map.containsKey(temp.id) && !map.get(temp.id).name.equals(temp.name)) {
+               change++;
+           } else if (!map.containsKey(temp.id)) {
+               delete++;
+           }
+       }
+       add = current.size() - old - change;
+       return new Info(add, change, delete, old);
     }
 
     public static class User {
@@ -34,17 +35,20 @@ public class Analyze {
             this.id = id;
             this.name = name;
         }
+
     }
 
     public static class Info {
         int added;
         int changed;
         int deleted;
+        int old;
 
-        public Info(int added, int changed, int deleted) {
+        public Info(int added, int changed, int deleted, int old) {
             this.added = added;
             this.changed = changed;
             this.deleted = deleted;
+            this.old = old;
         }
     }
 }

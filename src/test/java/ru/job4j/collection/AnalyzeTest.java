@@ -27,6 +27,7 @@ public class AnalyzeTest {
         Analyze.Info info = new Analyze().diff(previous, current);
         assertThat(info.added, is(1));
         assertThat(info.changed, is(2));
-        assertThat(info.deleted, is(1));
+        assertThat(info.deleted, is(2));
+        assertThat(info.old, is(1));
     }
 }
