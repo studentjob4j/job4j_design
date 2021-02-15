@@ -6,30 +6,39 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LogFilter {
 
     public static List<String> filter(String file) {
         List<String> result = new ArrayList<>();
+        String temp = null;
         try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
-            result = findRows(in.lines().collect(Collectors.toList()));
+            temp = in.readLine();
+            while (temp != null) {
+                String value = findRows(temp);
+                if (value == null) {
+                    temp = in.readLine();
+                    continue;
+                }
+                    result.add(value);
+                    temp = in.readLine();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    private static List<String> findRows(List<String> list) {
-        List<String> rsl = new ArrayList<>();
-        for (String temp : list) {
-            for (String tmp : temp.split(" ")) {
+    private static String findRows(String value) {
+            String result = null;
+            for (String tmp : value.split(" ")) {
                 if (tmp.equals("404")) {
-                    rsl.add(temp);
+                    result = value;
                     break;
                 }
             }
-        }
-        return rsl;
+        return result;
     }
 
     public static void main(String[] args) {
