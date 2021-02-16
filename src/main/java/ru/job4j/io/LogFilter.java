@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class LogFilter {
 
@@ -41,13 +39,16 @@ public class LogFilter {
     }
 
     public static void save(List<String> log, String file) {
+        int count = 0;
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file)))) {
-            out.write(log.toString());
+            while (log.size() > count) {
+                String temp = log.get(count++);
+                out.write(temp + System.lineSeparator());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) {
         List<String> log = filter("log.txt");
