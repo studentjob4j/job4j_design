@@ -39,12 +39,10 @@ public class LogFilter {
     }
 
     public static void save(List<String> log, String file) {
-        int count = 0;
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file)))) {
-            while (log.size() > count) {
-                String temp = log.get(count++);
-                out.write(temp + System.lineSeparator());
-            }
+           for (String value : log) {
+               out.println(value + System.lineSeparator());
+           }
         } catch (Exception e) {
             e.printStackTrace();
         }
