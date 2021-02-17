@@ -1,21 +1,21 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Analizy {
 
     public void unavailable(String source, String target) {
-        try (BufferedReader read = new BufferedReader(new FileReader(source))) {
-            findTime(read, target);
+        try (BufferedReader read = new BufferedReader(new FileReader(source)); // читает из источника в буфер
+             // записывает в файл через буфер и обертку над ним
+             PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream("target.txt")))) {
+             String temp = "";
+             out.write(findTime(read, temp));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void findTime(BufferedReader reader, String value) throws Exception {
+    private String findTime(BufferedReader reader, String value) throws Exception {
         String temp = reader.readLine();
         int count = 0;
         boolean flag = false;
@@ -50,6 +50,7 @@ public class Analizy {
                 }
             }
         }
+        return value;
     }
 
     public static void main(String[] args) {
