@@ -29,27 +29,20 @@ public class Config {
     }
 
     private void loadHelper(BufferedReader read) throws IllegalArgumentException, IOException {
-        int count = 0;
         String one = null;
         String two = null;
         temp = read.readLine();
         while (temp != null) {
-            if (temp.contains("#") || temp.length() == 0 || temp.contains("//")) {
+            if (temp.length() == 0 || temp.contains("//")) {
                 temp = read.readLine();
                 continue;
             }
-            for (String tmp : temp.split("=")) {
-                if (count == 0) {
-                    one = tmp;
-                    count++;
-                } else {
-                    two = tmp;
-                    count = 0;
-                }
-            }
-            if (count != 0) {
+            String[] array = temp.split("=");
+            if (array.length == 1) {
                 throw new IllegalArgumentException();
             }
+            one = array[0];
+            two = array[1];
             values.putIfAbsent(one, two);
             temp = read.readLine();
         }
