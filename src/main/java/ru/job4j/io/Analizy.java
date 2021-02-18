@@ -1,21 +1,23 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Analizy {
 
     public void unavailable(String source, String target) {
-        try (BufferedReader read = new BufferedReader(new FileReader(source)); // читает из источника в буфер
-             // записывает в файл через буфер и обертку над ним
+        try (BufferedReader read = new BufferedReader(new FileReader(source)); // читает из источника в буфер записывает в файл через буфер и обертку над ним
              PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream("target.txt")))) {
-             String temp = "";
-             out.write(findTime(read, temp));
+             List<String> list = new ArrayList<>();
+             list = findTime(read, list);
+             list.stream().forEach(x -> out.write(x));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private String findTime(BufferedReader reader, String value) throws Exception {
+    private List<String> findTime(BufferedReader reader, List<String> list) throws Exception {
         String temp = reader.readLine();
         int count = 0;
         boolean flag = false;
@@ -23,7 +25,7 @@ public class Analizy {
             if (temp.contains("500") || temp.contains("400") && !flag) {
                 for (String tmp : temp.split(" ")) {
                     if (count == 1) {
-                        value += tmp + ";";
+                        list.add(tmp + ";");
                         flag = true;
                         count = 0;
                         continue;
@@ -35,7 +37,7 @@ public class Analizy {
             } else if ((temp.contains("200") || temp.contains("300")) && flag) {
                 for (String tmp : temp.split(" ")) {
                     if (count == 1) {
-                        value += tmp + System.lineSeparator();
+                        list.add(tmp + System.lineSeparator());
                         count = 0;
                         continue;
                     }
@@ -50,7 +52,7 @@ public class Analizy {
                 }
             }
         }
-        return value;
+        return list;
     }
 
     public static void main(String[] args) {
