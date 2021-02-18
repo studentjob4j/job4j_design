@@ -41,7 +41,7 @@ public class LogFilter {
     public static void save(List<String> log, String file) {
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file)))) {
            for (String value : log) {
-               out.println(value + System.lineSeparator());
+               out.println(value);
            }
         } catch (Exception e) {
             e.printStackTrace();
