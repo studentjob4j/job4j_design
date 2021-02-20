@@ -47,6 +47,7 @@ public class AnalizyTest {
                 out.write(in.read());
             }
         }
+
         Analizy analizy = new Analizy();
         analizy.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         StringBuilder rsl = new StringBuilder();
