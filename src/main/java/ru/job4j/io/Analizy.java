@@ -8,7 +8,7 @@ public class Analizy {
 
     public void unavailable(String source, String target) {
         try (BufferedReader read = new BufferedReader(new FileReader(source)); // читает из источника в буфер записывает в файл через буфер и обертку над ним
-             PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream("target.txt")))) {
+             PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
              List<String> list = new ArrayList<>();
              list = findTime(read, list);
              list.stream().forEach(x -> out.write(x));
