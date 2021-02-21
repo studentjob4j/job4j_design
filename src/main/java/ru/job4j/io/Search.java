@@ -6,11 +6,15 @@ import java.util.List;
 
 public class Search {
 
-    // метод ищет в файловой системе файлы которые отвечают предикату
-
-    public List<Path> search(Path root, String ext) throws IOException {
-        SearchFiles searcher = new SearchFiles(x -> x.endsWith(ext));
-        Files.walkFileTree(root, searcher);
+    public List<Path> search(Path value, String temp) throws IOException {
+        SearchFiles searcher = new SearchFiles(x -> x.endsWith(temp));
+        Files.walkFileTree(value, searcher);
         return searcher.getList();
+    }
+
+    public static void main(String[] args) throws IOException {
+        SearchFiles searcher = new SearchFiles(x -> x.endsWith(args[1]));
+        Files.walkFileTree(Paths.get(args[0]), searcher);
+        searcher.getList().stream().forEach(x -> System.out.println(x.toFile().getName()));
     }
 }
