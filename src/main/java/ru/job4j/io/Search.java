@@ -7,7 +7,13 @@ import java.util.List;
 public class Search {
 
     public List<Path> search(Path value, String temp) throws IOException {
-        SearchFiles searcher = new SearchFiles(x -> x.endsWith(temp));
+        SearchFiles searcher = new SearchFiles(x -> x.toFile().getName().endsWith(temp));
+        Files.walkFileTree(value, searcher);
+        return searcher.getList();
+    }
+
+    public List<Path> search2(Path value, String temp) throws IOException {
+        SearchFiles searcher = new SearchFiles(x -> !x.toFile().getName().endsWith(temp));
         Files.walkFileTree(value, searcher);
         return searcher.getList();
     }
@@ -16,8 +22,10 @@ public class Search {
         if (args.length != 2 && args[0] != null && args[1] != null) {
             throw new IllegalArgumentException("Wrong arguments");
         }
-        SearchFiles searcher = new SearchFiles(x -> x.endsWith(args[1]));
+        SearchFiles searcher = new SearchFiles(x -> x.toFile().getName().endsWith(args[1]));
         Files.walkFileTree(Paths.get(args[0]), searcher);
-        searcher.getList().stream().forEach(x -> System.out.println(x.toFile().getName()));
+        searcher.getList()
+                .stream()
+                .forEach(x -> System.out.println(x.toFile().getName()));
     }
 }
