@@ -19,7 +19,7 @@ public class Search {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2 && args[0] != null && args[1] != null) {
+        if (!valid(args)) {
             throw new IllegalArgumentException("Wrong arguments");
         }
         SearchFiles searcher = new SearchFiles(x -> x.toFile().getName().endsWith(args[1]));
@@ -27,5 +27,15 @@ public class Search {
         searcher.getList()
                 .stream()
                 .forEach(x -> System.out.println(x.toFile().getName()));
+    }
+
+    public static boolean valid(String[] values) {
+        boolean rsl = false;
+        if (values.length != 2) {
+            return rsl;
+        } else if (values[0] != null && values[1] != null) {
+           rsl = true;
+        }
+        return rsl;
     }
 }
