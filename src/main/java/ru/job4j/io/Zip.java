@@ -10,22 +10,18 @@ import java.util.zip.ZipOutputStream;
 public class Zip {
 
     public static void packFiles(List<Path> sources, File target) {
-        int count = 0;
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            while (sources.size() != count) {
-             Path temp = sources.get(count++);
-                ZipEntry entry = new ZipEntry(String.valueOf(temp));
-                zip.putNextEntry(entry);
-                try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(temp.toFile()))) {
+            for (Path tmp : sources) {
+                zip.putNextEntry(new ZipEntry(String.valueOf(tmp)));
+
+                try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp.toFile()))) {
                     zip.write(bis.readAllBytes());
                 }
                 zip.closeEntry();
             }
-
-        } catch (Exception e) {
+            }  catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) throws IOException {
