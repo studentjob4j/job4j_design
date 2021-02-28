@@ -22,30 +22,44 @@ public class ConsoleChat {
     public void run() {
         boolean tmp = true;
         int count = 0;
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(path))) {
+        List<String> list = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        list = readAnswersBot();
+        try (FileOutputStream writers = new FileOutputStream(path)) {
             while (tmp) {
                 String input = scanner.nextLine();
-                writer.println(input);
+                temp.add(input);
                 if (input.equals(STOP)) {
                     count = 1;
                 } else if (input.equals(OUT)) {
-                    writer.println(readAnswersBot().get(1));
-                    System.out.println(readAnswersBot().get(1));
+                    temp.add(list.get(1));
+                    System.out.println(list.get(1));
                     tmp = false;
                 } else if (input.equals(CONTINUE)) {
                     count = 0;
-                    writer.println(readAnswersBot().get(0));
-                    System.out.println(readAnswersBot().get(0));
+                    temp.add(list.get(0));
+                    System.out.println(list.get(0));
                 } else if (count == 0) {
-                    writer.println(readAnswersBot().get(0));
-                    System.out.println(readAnswersBot().get(0));
+                    temp.add(list.get(0));
+                    System.out.println(list.get(0));
                 }
             }
+            recInTheFile(temp, writers);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void recInTheFile(List<String> list, FileOutputStream out) {
+        list.stream().forEach(x -> {
+            try {
+                out.write(x.getBytes());
+                out.write(System.lineSeparator().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     private List<String> readAnswersBot() {
         List<String> list = new ArrayList<>();
