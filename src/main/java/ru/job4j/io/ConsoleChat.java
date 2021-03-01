@@ -32,16 +32,16 @@ public class ConsoleChat {
                 if (input.equals(STOP)) {
                     count = 1;
                 } else if (input.equals(OUT)) {
-                    temp.add(list.get(1));
-                    System.out.println(list.get(1));
+                    temp.add(list.get((int) (Math.random() * list.size())));
+                    System.out.println(list.get((int) (Math.random() * list.size())));
                     tmp = false;
                 } else if (input.equals(CONTINUE)) {
                     count = 0;
-                    temp.add(list.get(0));
-                    System.out.println(list.get(0));
+                    temp.add(list.get((int) (Math.random() * list.size())));
+                    System.out.println(list.get((int) (Math.random() * list.size())));
                 } else if (count == 0) {
-                    temp.add(list.get(0));
-                    System.out.println(list.get(0));
+                    temp.add(list.get((int) (Math.random() * list.size())));
+                    System.out.println(list.get((int) (Math.random() * list.size())));
                 }
             }
             recInTheFile(temp, writers);
