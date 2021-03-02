@@ -25,7 +25,6 @@ public class ConsoleChat {
         List<String> list = new ArrayList<>();
         List<String> temp = new ArrayList<>();
         list = readAnswersBot();
-        try (FileOutputStream writers = new FileOutputStream(path)) {
             while (tmp) {
                 String input = scanner.nextLine();
                 temp.add(input);
@@ -44,6 +43,7 @@ public class ConsoleChat {
                     System.out.println(list.get((int) (Math.random() * list.size())));
                 }
             }
+        try (FileOutputStream writers = new FileOutputStream(path)) {
             recInTheFile(temp, writers);
         } catch (Exception e) {
             e.printStackTrace();
