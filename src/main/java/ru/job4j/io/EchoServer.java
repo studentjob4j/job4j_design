@@ -6,52 +6,85 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EchoServer {
 
     private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
+    private static final Map<String, Consumer<OutputStream>> MAPA = new HashMap<>();
 
     public static void main(String[] args) {
         String str = null;
-
         try (ServerSocket server = new ServerSocket(9000)) {
+            writeDataInMap(server);
             while (!server.isClosed()) {
                 int count = 0;
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                      while (in.ready()) {
-                         str = in.readLine();
+                         String temp = in.readLine();
                          if (count == 0) {
-                             writeInOut(str, out, server);
+                             String value = splitArgument(temp);
+                             writeInOut(value, out, server);
                              count = 1;
                          }
-                        System.out.println(str);
+                        System.out.println(temp);
                      }
                 }
             }
         } catch (Exception e) {
-           // e.printStackTrace();
             LOG.error("Exception in streams", e);
         }
     }
 
-    private static void writeInOut(String value, OutputStream out, ServerSocket server) throws IOException {
-        List<String> list = List.of("HTTP/1.1 200 OK\r\n\r\n", "GoodBye My Dear friend\r\n\r\n", "Hello my dear friend\r\n\r\n",
-                "What\r\n\r\n");
-        out.write(list.get(0).getBytes());
-            if (value.contains("Exit")) {
-                out.write(list.get(1).getBytes());
+    private static void writeDataInMap(ServerSocket server) {
+        MAPA.put("Hello", x -> {
+            try {
+                x.write("Hello my dear friend\r\n\r\n".getBytes());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        MAPA.put("Any", x -> {
+            try {
+                x.write("What\r\n\r\n".getBytes());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        MAPA.put("Exit", x -> {
+            try {
+                x.write("GoodBye My Dear friend\r\n\r\n".getBytes());
                 server.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            if (value.contains("Hello")) {
-                out.write(list.get(2).getBytes());
+        });
+    }
+
+    private static String splitArgument(String value) {
+       String[] temp = value.split("=");
+       String[] tmp = temp[1].split(" ");
+        return tmp[0];
+    }
+
+    private static void writeInOut(String value, OutputStream out, ServerSocket server) throws IOException {
+        out.write("HTTP/1.1 200 OK\\r\\n\\r\\n".getBytes());
+        out.write(System.lineSeparator().getBytes());
+        // метод возвращает значение по ключу и если нет значения тогда возвращает значение по умолчанию
+        MAPA.getOrDefault(value, outputStream -> {
+            try {
+                outputStream.write("I Don't understand\r\n\r\n".getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            if (value.contains("Any")) {
-                out.write(list.get(3).getBytes());
-            }
+        }).accept(out);
     }
 }
