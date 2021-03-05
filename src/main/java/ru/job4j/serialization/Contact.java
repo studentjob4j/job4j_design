@@ -18,6 +18,10 @@ public class Contact implements Serializable {
     public Contact() {
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     @Override
     public String toString() {
         return "Contact{" + "phone='" + phone + '\'' + '}';

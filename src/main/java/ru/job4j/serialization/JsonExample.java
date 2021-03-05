@@ -1,14 +1,13 @@
 package ru.job4j.serialization;
 
-import javax.xml.bind.JAXBContext;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @XmlRootElement(name = "jsonexample")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -23,7 +22,7 @@ public class JsonExample {
     private Contact contact;
     @XmlElementWrapper(name = "arrays")
     @XmlElement(name = "array")
-    private static String[] arrays;
+    private String[] arrays;
 
     public JsonExample(boolean value, int data, String text, Contact contact, String[] array) {
         this.value = value;
@@ -31,6 +30,26 @@ public class JsonExample {
         this.text = text;
         this.contact = contact;
         arrays = array;
+    }
+
+    public boolean isValue() {
+        return value;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String[] getArrays() {
+        return arrays;
     }
 
     public JsonExample() {
@@ -43,7 +62,33 @@ public class JsonExample {
     }
 
     public static void main(String[] args) throws JAXBException, IOException {
-        JsonExample example = new JsonExample(true, 2021, "Thursday",
+
+        /* JSONObject из json-строки строки */
+        JSONObject jsonContact = new JSONObject("{\"phone\":\"+7(924)111-111-11-11\"}");
+
+        /* JSONArray из ArrayList */
+        List<String> list = new ArrayList<>();
+        list.add("one");
+        list.add("two");
+        JSONArray jsonArrays = new JSONArray(list);
+
+        /* JSONObject напрямую методом put */
+        final JsonExample example = new JsonExample(false, 30, "someText", new Contact("11-111"),
+                new String[] {"one", "two", "three"});
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("boolean", example.isValue());
+        jsonObject.put("data", example.getData());
+        jsonObject.put("text", example.getText());
+        jsonObject.put("contact", jsonContact);
+        jsonObject.put("arrays", jsonArrays);
+
+        /* Выведем результат в консоль */
+        System.out.println(jsonObject.toString());
+
+        /* Преобразуем объект в json-строку */
+        System.out.println(new JSONObject(example).toString());
+
+        /*JsonExample example = new JsonExample(true, 2021, "Thursday",
                 new Contact("1122"), new String[] {"one", "two", "three"});
         // Получаем контекст для доступа к АПИ
         JAXBContext context = JAXBContext.newInstance(JsonExample.class);
@@ -64,7 +109,7 @@ public class JsonExample {
             // десериализуем
             JsonExample result = (JsonExample) unmarshaller.unmarshal(reader);
             System.out.println(result);
-        }
+        }*/
 
     }
 }
