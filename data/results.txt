@@ -1,0 +1,5 @@
+C:\projects\job4j_design\data\example.xml
+C:\projects\job4j_design\data\tempfiles\otherFiles\temp.html
+C:\projects\job4j_design\data\tempfiles\otherFiles\temp.xml
+C:\projects\job4j_design\data\tempfiles\temp.html
+C:\projects\job4j_design\data\tempfiles\temp.xml
