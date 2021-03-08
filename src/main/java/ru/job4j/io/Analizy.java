@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Analizy {
+
     public void unavailable(String source, String target) {
         try (BufferedReader read = new BufferedReader(new FileReader(source)); // читает из источника в буфер записывает в файл через буфер и обертку над ним
              PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
