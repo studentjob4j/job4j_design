@@ -29,8 +29,8 @@ insert into person(name, age, address, profession_id) VALUES ('Юлия', 32, '�
 insert into person(name, age, address, profession_id) VALUES ('Петр',null,'Владивосток', null);
 select * from person;
 
+select p.name ,p.age, pr.description from person as p join profession as pr on  p.id = pr.id;
+select p.name ,p.age, p.address, pr.description from person as p  join profession as pr on  p.id = pr.id;
+select p.name , pr.description from person as p  join profession as pr on  p.id = pr.id;
 
-select p.name ,p.age, p.address from person as p join profession as pr on  p.id = pr.id;
-select p.name ,p.age from person as p full join profession as pr on  p.id = pr.id;
-select p.address from person as p join profession as pr on p.id = pr.id;
 
