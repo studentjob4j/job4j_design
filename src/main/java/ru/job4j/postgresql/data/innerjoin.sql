@@ -32,5 +32,8 @@ select * from person;
 select p.name ,p.age, pr.description from person as p join profession as pr on  p.id = pr.id;
 select p.name ,p.age, p.address, pr.description from person as p  join profession as pr on  p.id = pr.id;
 select p.name , pr.description from person as p  join profession as pr on  p.id = pr.id;
+select p.address ,p.age, pr.description from person as p join profession as pr on  p.id = pr.id;
+
+
 
 
