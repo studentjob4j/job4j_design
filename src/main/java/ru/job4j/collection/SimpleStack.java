@@ -1,0 +1,22 @@
+package ru.job4j.collection;
+
+/**
+ * SimpleStack
+ * @author Shegai Evgenii
+ * @version 1.0
+ * @since 13.01.2023
+ * @param <T>
+ */
+
+public class SimpleStack<T> {
+
+    private ForwardLinked<T> linked = new ForwardLinked<T>();
+
+    public T pop() {
+        return linked.deleteFirst();
+    }
+
+    public void push(T value) {
+      linked.addFirst(value);
+    }
+}

@@ -14,17 +14,40 @@ import java.util.Objects;
 
 public class ForwardLinked<T> implements Iterable<T>, LinkedList<T> {
 
-    private Node<T> first;
+    private Node<T> head;
     private int size = 0;
     private int modCount = 0;
 
     @Override
+
     public void add(T value) {
         if (size == 0) {
-            this.first = new Node<>(value, null);
+            this.head = new Node<>(value, null);
         } else {
             getNode(size - 1).next = new Node<>(value, null);
         }
+        size++;
+        modCount++;
+    }
+
+
+    /**
+     * Если голова пустая , то делаем новую ноду головой
+     * Иначе создаем временую ноду которая ссылается на хед
+     * в хед записываем новую ноду, и хед некст будет ссылаться на предыдущее значение хед
+     * это нода темп
+     */
+    public void addFirst(T value) {
+        Node<T> newHead = new Node(value, null);
+        if (head == null) {
+           this.head = newHead;
+           size++;
+           modCount++;
+           return;
+        }
+        Node<T> temp = head;
+        head = newHead;
+        head.next = temp;
         size++;
         modCount++;
     }
@@ -35,7 +58,7 @@ public class ForwardLinked<T> implements Iterable<T>, LinkedList<T> {
     }
 
     private Node<T> getNode(int index) {
-        Node<T> nodeTemp = this.first;
+        Node<T> nodeTemp = this.head;
         if (Objects.checkIndex(index, size) == index) {
             for (int i = 0; i < index; i++) {
                 nodeTemp = nodeTemp.next;
@@ -44,13 +67,20 @@ public class ForwardLinked<T> implements Iterable<T>, LinkedList<T> {
         return nodeTemp;
     }
 
+    /**
+     * Если голова пустая то кидаем исключение иначе
+     * создаем еще одну ссылку на голову - темп, получаем данные из головы
+     * голова передвигается на один элемент вперед, и зануляем ссылки и значения ноды,
+     * которая была раньше головой
+     */
+
     public T deleteFirst() {
-        Node<T> temp = first;
-        if (first == null) {
+        Node<T> temp = head;
+        if (head == null) {
             throw new NoSuchElementException();
         }
         T result = temp.data;
-        first = temp.next;
+        head = temp.next;
         temp.next = null;
         temp.data = null;
         modCount++;
@@ -62,7 +92,7 @@ public class ForwardLinked<T> implements Iterable<T>, LinkedList<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int expectedmodCount = modCount;
-            private Node<T> current = first;
+            private Node<T> current = head;
             private T result;
 
             @Override
