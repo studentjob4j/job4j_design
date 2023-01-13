@@ -15,6 +15,8 @@ import java.util.Objects;
 public class ForwardLinked<T> implements Iterable<T>, LinkedList<T> {
 
     private Node<T> head;
+
+    private Node<T> tail;
     private int size = 0;
     private int modCount = 0;
 
@@ -86,6 +88,28 @@ public class ForwardLinked<T> implements Iterable<T>, LinkedList<T> {
         modCount++;
         size--;
         return result;
+    }
+
+
+    /**
+     * Переворачиваем связанный список
+     * если список состоит из 1 элемента то нет смысла его переворачивать
+     *
+     */
+    public boolean revert() {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        tail = head;
+        Node<T> current = head.next;
+        head.next = null;
+        while (current != null) {
+            Node<T> next = current.next;
+            current.next = head;
+            head = current;
+            current = next;
+        }
+        return true;
     }
 
     @Override
