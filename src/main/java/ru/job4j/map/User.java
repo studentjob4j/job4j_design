@@ -1,12 +1,10 @@
 package ru.job4j.map;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
- *  Без переопределения equals и hashCode
- *  хеш коды разные - разные бакеты
+ * override equals and hashcode
+ * ключи одинаковые - объект перезаписался в карте
  * @author Shegai Evgenii
  * @version 1.0
  * @since 15.01.2023
@@ -26,7 +24,7 @@ public class User {
 
     public static void main(String[] args) {
         Map<User, Object> map = new HashMap<>(16);
-        Calendar birthday = Calendar.getInstance();
+        Calendar birthday = new GregorianCalendar(2023, 01, 15);
         User user1 = new User("Alex", 2, birthday);
         int hashcode1 = user1.hashCode();
         int hash1 = hashcode1 ^ (hashcode1 >>> 16);
@@ -40,5 +38,26 @@ public class User {
         System.out.printf("user1 - hashcode : %s, hash : %s, bucket : %s", hashcode1, hash1, bucket1);
         System.out.println();
         System.out.printf("user2 - hashcode : %s, hash : %s, bucket : %s", hashcode2, hash2, bucket2);
+        System.out.println();
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.println("Key - " + entry.getKey() + "Value - " + entry.getValue());
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return children == user.children && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
     }
 }
